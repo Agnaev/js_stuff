@@ -37,15 +37,6 @@ Array.prototype.quickSort = function (comparator) {
         return [...this];
     }
 
-    if(this.length === 2) {
-        if(comparator(...this)) {
-            return [...this].reverse()
-        }
-        else {
-            return [...this];
-        }
-    }
-
     const index = Math.round(this.length / 2);
     const pivot = this[index];
     let left = [];
