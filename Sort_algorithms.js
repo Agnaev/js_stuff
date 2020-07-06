@@ -89,3 +89,10 @@ console.log(`Insertion sort of array ${arr.join()} needed ${numberOfCompairsons}
 numberOfCompairsons = 0;
 console.log(arr.quickSort(comparer));
 console.log(`Quick sort of array ${arr.join()} needed ${numberOfCompairsons} compares`);
+
+numberOfCompairsons = 0;
+console.log(arr.sort((a, b) => {
+    numberOfCompairsons++;
+    return a - b
+}));
+console.log(`Standart array sort needed ${numberOfCompairsons} compares`)

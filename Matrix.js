@@ -21,15 +21,18 @@ Matrix.prototype.Multiple = function (b) {
     if (!Matrix.isMatrix(b)) {
         return new TypeError('Argument must be matrix!');
     }
+    else if(this.matrix[0].length !== b.matrix.length) {
+        return new TypeError(`It is impossible to multiply two arrays since the number of columns in the first matrix is not equal to the number of rows in the second matrix.`)
+    }
+
     const res = new Matrix;
     for (let i = 0; i < b.matrix[0].length; i++) {
-        res.matrix.push([])
+        res.matrix.push(new Array(b.matrix[0].length).fill(0))
     }
     for (let i = 0; i < this.matrix.length; i++) {
         for (let j = 0; j < b.matrix[0].length; j++) {
-            res.matrix[i][j] = 0;
             for (let k = 0; k < b.matrix.length; k++) {
-                res.matrix[i][j] += (this.matrix[i][k] * b.matrix[k][j])
+                res.matrix[i][j] += this.matrix[i][k] * b.matrix[k][j]
             }
         }
     }
@@ -38,7 +41,7 @@ Matrix.prototype.Multiple = function (b) {
 
 Matrix.prototype.Amount = function(b_matrix) {
     if(this.matrix.length !== b_matrix.matrix.length || this.matrix[0].length !== b_matrix.matrix[0].length) {
-        return new TypeError('Two matrices cannot be added.')
+        return new TypeError('Two matrixes cannot be added.')
     }
     const result = new Matrix;
     for(let i = 0; i < this.matrix.length; i++) {
@@ -50,15 +53,21 @@ Matrix.prototype.Amount = function(b_matrix) {
     return result;
 }
 
+Matrix.prototype.toConsole = function() {
+    console.log(this.matrix.reduce(
+        (res, item) => res + item.join(' ') + '\r\n', 
+        ''
+    ))
+}
+
 const a = new Matrix([[2, -3, 1], [5, 4, -2]])
 const b = new Matrix([[-7, 5], [2, -1], [4, 3]])
 
-console.log(a.Multiple(b).matrix)
+a.Multiple(b).log()
 
 const a1 = new Matrix([[1, 0], [0, 1]]);
 const b1 = new Matrix([[0, 1], [1, 0]])
 
-console.log(a1.Amount(b1).matrix)
-
+a1.Amount(b1).log()
 
 
