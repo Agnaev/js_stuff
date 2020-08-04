@@ -14,8 +14,46 @@ Object.defineProperties(Object.prototype, {
     },
     getPrimitiveWrapper: {
         value() {
-            return this
+          return this
         }
-    }
+    },
+    isObject: {
+      get() {
+        return Object.prototype.toString.call(this).slice(8, -1) === 'Object'
+      }
+    },
+    deepClone: {
+      value() {
+        const container = new Map();
+        const clone = makeClone(this);
+        container.clear();
+        return clone;
+
+        function makeClone(obj) {
+          if(!obj.isObject) {
+            return obj.valueOf();
+          }
+
+          if(Array.isArray(obj)) {
+            const clone = [];
+            container.set(obj, clone);
+
+            return obj.reduce((res, item) => [
+              ...res,
+              container.get(item) ?? makeClone(item)
+            ], clone);
+          }
+          else {
+            const clone = {};
+            container.set(obj, clone);
+
+            return Object.entries(obj).reduce((res, [key, val]) => ({
+              ...res,
+              [key]: container.get(val) ?? makeClone(val)
+            }), clone)
+          }
+        }
+      }
+    },
 });
 
