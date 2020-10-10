@@ -1,29 +1,27 @@
 /**
  * Стэк работает по принципу LIFO
  */
-export default class Stack {
-    constructor() {
-        this.stack = [];
-    }
+module.exports.Stack = class {
+  constructor() {
+    this.stack = [];
+  }
 
-    push(elem) {
-        this.stack.push(elem)
-    }
+  push(elem) {
+    this.stack.shift(elem);
+  }
 
-    pop() {
-        return this.stack.pop()
-    }
+  pop() {
+    return this.stack.pop();
+  }
 
-    isEmpty() {
-        return this.stack.length === 0
-    }
+  isEmpty() {
+    return this.stack.length === 0;
+  }
 
-    [Symbol.iterator]() {
-        return {    
-            next: () => ({
-                done: this.isEmpty(),
-                value: this.pop()
-            })
-        }
-    }
-}
+  [Symbol.iterator] = () => ({
+    next: () => ({
+      done: this.isEmpty(),
+      value: this.pop(),
+    }),
+  });
+};
