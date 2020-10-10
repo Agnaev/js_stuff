@@ -13,8 +13,11 @@ class BinnaryTreeIterator {
     if (root instanceof Node === false) {
       throw new TypeError("Argument must be instance of Node.");
     }
-    this.root = root;
+    Object.defineProperty(this, 'root', {
+      get: () => root
+    })
   }
+
   recursively_iterate_tree(root = this.root) {
     console.log(root.value);
     if (root.left !== null && root.right !== null) {
@@ -22,6 +25,7 @@ class BinnaryTreeIterator {
       this.recursively_iterate_tree(root.right);
     }
   }
+
   iterate_tree() {
     const queue = new Queue();
     let root = this.root;
@@ -38,6 +42,7 @@ class BinnaryTreeIterator {
       }
     }
   }
+
   *iterate_yield() {
     const queue = new Queue();
     let root = this.root;
@@ -54,6 +59,7 @@ class BinnaryTreeIterator {
       yield root.value;
     }
   }
+
   [Symbol.iterator]() {
     let root = this.root;
     const queue = new Queue();
